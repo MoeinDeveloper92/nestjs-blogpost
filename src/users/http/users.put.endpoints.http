@@ -1,0 +1,4 @@
+
+PUT http://localhost:3000/users/user123
+Content-Type:application/json
+{}
