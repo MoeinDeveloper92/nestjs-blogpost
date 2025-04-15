@@ -15,9 +15,17 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { getUsersParamDto } from './dto/get-users-param.dto';
 import { PatchUserDto } from './dto/patch-user.dto';
 import { UsersService } from './providers/users.service';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
+import { UserDto } from './dto/user.dto';
 //http://localhost:3000/users
-
 @Controller('users')
+// Name of the collabsable group that we want to add to our swagger
+@ApiTags('Users')
 export class UsersController {
   /**
    *
@@ -34,7 +42,31 @@ export class UsersController {
     //Injecting user service to user controller
     private readonly userService: UsersService,
   ) {}
-  @Get('/:id?')
+
+  @Get('/:id')
+  @ApiOperation({
+    summary: 'It fetches a list of registered users on the application',
+  })
+  @ApiOkResponse({
+    description: 'Users fetched succesfully based on the query',
+    type: UserDto,
+    isArray: true,
+  })
+  @ApiQuery({
+    name: 'limit',
+    type: Number,
+    required: false,
+    description: 'Number of entires returned per query',
+    example: 10,
+  })
+  @ApiQuery({
+    name: 'page',
+    type: Number,
+    required: false,
+    description:
+      'The position of the page number that you want the API to return',
+    example: 1,
+  })
   public getUsers(
     @Param() getUsersParamDto: getUsersParamDto,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
@@ -45,8 +77,7 @@ export class UsersController {
 
   @Post()
   public createUsers(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto instanceof CreateUserDto);
-    return 'You sent a post request to users endpoint';
+    return this.userService.createUser(createUserDto);
   }
 
   @Put('/:id')

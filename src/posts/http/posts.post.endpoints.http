@@ -1,0 +1,20 @@
+POST http://localhost:3000/posts
+Content-Type:application/json
+
+{
+    "title":"what is new with nestjs",
+    "postType":"post",
+    "slug":"what-is-new-with-nestjs",
+    "status":"draft",
+    "content":"Test Content",
+    "schema":"{\r\n\"@context\":\"https:\/\/schema.org\",\r\n \"@type\":\"Person\"\r\n}",
+    "featuredImageUrl":"http://localhost.com/images/image1.jpg",
+    "publishedOn":"2024-03-16T07:46:32+0000",
+    "tags":["nestjs","typescript"],
+    "metaOptions":[
+        {
+            "key":"test Key",
+            "value":20
+        }
+    ]
+}
